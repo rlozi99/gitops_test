@@ -46,7 +46,7 @@ pipeline {
         }
 
         // Kustomize 설정 업데이트
-        stage('Update Kustomize') {
+        stage('Update Kustomize..') {
             steps {
                 script {
                     dir('k8s/overlays/production') {
