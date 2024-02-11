@@ -45,6 +45,7 @@ pipeline {
                             sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
                             sh "git add ."
                             sh "git commit -m 'Update image version to ${VERSION}'"
+                            sh "git config credential.helper store" // 사용자 인증 추가
                             sh "git push origin main" // 새로운 브랜치를 원격 레포지토리로 푸시
                     }
                 }    
