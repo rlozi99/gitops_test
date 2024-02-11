@@ -42,9 +42,7 @@ pipeline {
                         sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
                         sh "git add ."
                         sh "git commit -m 'Update image version to ${VERSION}'"
-                        withCredentials([usernamePassword(credentialsId: 'github-access-token', passwordVariable: 'GITHUB_TOKEN')]) {
-                            sh "git push https://$GITHUB_TOKEN@github.com/yellowsunn/argocd-manifest.git main"
-                        }
+                        sh "git push https://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:x-oauth-basic@github.com/rlozi99/gitops_test.git main"
                     }
                 }
             }
