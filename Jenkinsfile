@@ -37,16 +37,17 @@ pipeline {
             steps {
                 script {
                     dir('k8s/overlays/production') {
-                    sh "git fetch --all"
-                    sh "git checkout -B main origin/main" // 새로운 브랜치 생성 및 체크아웃
-                    sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
-                    sh "git add ."
-                    sh "git commit -m 'Update image version to ${VERSION}'"
-                    withCredentials([usernamePassword(credentialsId: 'github-access-token', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                        sh "git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/yellowsunn/argocd-manifest.git"
+                        sh "git fetch --all"
+                        sh "git reset --hard origin/main"
+                        sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
+                        sh "git add ."
+                        sh "git commit -m 'Update image version to ${VERSION}'"
+                        withCredentials([usernamePassword(credentialsId: 'github-access-token', passwordVariable: 'GITHUB_TOKEN')]) {
+                            sh "git push https://${GITHUB_TOKEN}@github.com/yellowsunn/argocd-manifest.git main"
+                        }
                     }
-                }    
+                }
             }
-        }    
-    }
+        }
+    }  
 }
