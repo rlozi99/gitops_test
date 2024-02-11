@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Login to ACR') {
+        stage('Logingit  to ACR') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jenkins-acr-access', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASSWORD')]) {
@@ -37,7 +37,9 @@ pipeline {
             steps {
                 script {
                     dir('k8s/overlays/production') {
-                        // 여기에서 kustomize 명령을 실행합니다.
+                        sh "git branch"
+                        sh "git fetch --all"
+                        sh "git reset --hard origin/main"
                         sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
                         sh "git config --global user.email 'rlozi1999@gmail.com'"
                         sh "git config --global user.name 'LEJ'"
