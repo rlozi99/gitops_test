@@ -36,14 +36,14 @@ pipeline {
         stage('Update Kustomize') {
             steps {
                 script {
-                    // Kustomize를 사용하여 매니페스트의 이미지 태그를 업데이트합니다.
-                    sh "kustomize edit set image ${IMAGE_NAME}:${VERSION} --path k8s/overlays/production"
-                    
-		    sh "git config --global user.email rlozi1999@gmail.com"
-                    sh "git config --global user.name LEJ"
-		    sh "git add ."
-                    sh "git commit -m 'Update image version to ${VERSION}'"
-                    sh "git push origin main"
+                    dir('k8s/overlays/production') {
+                        sh "kustomize edit set image ${IMAGE_NAME}:${VERSION}"
+	            	    sh "git config --global user.email rlozi1999@gmail.com"
+                        sh "git config --global user.name LEJ"
+                        sh "git add ."
+                        sh "git commit -m 'Update image version to ${VERSION}'"
+                        sh "git push origin main"
+                    }
                 }
             }
         }
