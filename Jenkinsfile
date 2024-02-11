@@ -1,10 +1,28 @@
 pipeline {
     agent any // Jenkins에서 사용할 agent를 정의합니다.
 
+    environment {
+        // 환경 변수 설정
+        ACR_NAME = 'aksregigi' // 실제 ACR 레지스트리 이름으로 대체
+        IMAGE_NAME = 'aksregigi.azurecr.io/my-simple-website' // 실제 이미지 이름으로 대체
+        IMAGE_TAG = 'latest' // 실제 이미지 태그로 대체
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/rlozi99/gitops_test.git', branch: 'main'
+            }
+        }
+
+        stage('Pull Image from ACR') {
+            steps {
+                script {
+                    // Docker 레지스트리에 로그인하고 이미지를 가져옵니다.
+                    docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'jenkins-acr-access') {
+                        sh "docker pull ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
+                    }
+                }
             }
         }
         
