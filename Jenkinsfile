@@ -46,10 +46,9 @@ pipeline {
                             sh "git add ."
                             sh "git commit -m 'Update image version to ${VERSION}'"
                             sh "git push origin main" // 새로운 브랜치를 원격 레포지토리로 푸시
-                        }
                     }
-                }
+                }    
             }
-        }
+        }    
     }
 }
