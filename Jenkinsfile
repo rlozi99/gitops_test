@@ -15,13 +15,20 @@ pipeline {
             }
         }
 
-        stage('Pull Image from ACR') {
+        stage('Login to ACR') {
             steps {
                 script {
-                    // Docker 레지스트리에 로그인하고 이미지를 가져옵니다.
-                    docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'jenkins-acr-access') {
-                        sh "docker pull ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
+                    withCredentials([usernamePassword(credentialsId: 'jenkins-acr-access', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASSWORD')]) {
+                        sh 'docker login aksregigi.azurecr.io --username $ACR_USER --password $ACR_PASSWORD'
                     }
+                }
+            }
+        }
+
+        stage('Push to ACR') {
+            steps {
+                script {
+                    sh "docker push ${IMAGE_NAME}:${VERSION}"
                 }
             }
         }
