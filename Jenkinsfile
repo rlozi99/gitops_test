@@ -43,7 +43,7 @@ pipeline {
                         sh "git add ."
                         sh "git commit -m 'Update image version to ${VERSION}'"
                         withCredentials([usernamePassword(credentialsId: 'github-access-token', passwordVariable: 'GITHUB_TOKEN')]) {
-                            sh "git push https://${GITHUB_TOKEN}@github.com/yellowsunn/argocd-manifest.git main"
+                            sh "git push https://$GITHUB_TOKEN@github.com/yellowsunn/argocd-manifest.git main"
                         }
                     }
                 }
