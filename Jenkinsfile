@@ -15,6 +15,16 @@ pipeline {
             }
         }
 
+        stage('Login to ACR') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jenkins-acr-access', usernameVariable: 'ACR_USER', passwordVariable: 'ACR_PASSWORD')]) {
+                        sh 'docker login aksregigi.azurecr.io --username $ACR_USER --password $ACR_PASSWORD'
+                    }
+                }
+            }
+        }
+
         stage('Push to ACR') {
             steps {
                 script {
