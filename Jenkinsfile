@@ -28,7 +28,7 @@ pipeline {
         stage('Push to ACR') {
             steps {
                 script {
-                    sh "docker push aksregigi.azurecr.io:${VERSION}"
+                    sh "docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }
