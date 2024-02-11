@@ -37,8 +37,6 @@ pipeline {
             steps {
                 script {
                     dir('k8s/overlays/production') {
-                            sh "git config --global user.email 'rlozi1999@gmail.com'"
-                            sh "git config --global user.name 'LEJ'"
                             sh "git branch"
                             sh "git fetch --all"
                             sh "git checkout -B main origin/main" // 새로운 브랜치 생성 및 체크아웃
