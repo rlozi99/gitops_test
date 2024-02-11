@@ -37,9 +37,10 @@ pipeline {
             steps {
                 script {
                     dir('k8s/overlays/production') {
-                        sh "kustomize edit set image ${IMAGE_NAME}:${VERSION}"
-	            	    sh "git config --global user.email rlozi1999@gmail.com"
-                        sh "git config --global user.name LEJ"
+                        // 여기에서 kustomize 명령을 실행합니다.
+                        sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
+                        sh "git config --global user.email 'rlozi1999@gmail.com'"
+                        sh "git config --global user.name 'LEJ'"
                         sh "git add ."
                         sh "git commit -m 'Update image version to ${VERSION}'"
                         sh "git push origin main"
@@ -49,4 +50,3 @@ pipeline {
         }
     }
 }
-
