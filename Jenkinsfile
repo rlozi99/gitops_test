@@ -37,17 +37,16 @@ pipeline {
             steps {
                 script {
                     dir('k8s/overlays/production') {
-                        sh "git config --global user.email 'rlozi1999@gmail.com'"
-                        sh "git config --global user.name 'LEJ'"
-                        sh "git branch"
-                        sh "git fetch --all"
-                        sh "git reset --hard origin/main"
-                        sh "git branch -M main"
-                        sh "git remote add origin https://github.com/rlozi99/gitops_test.git"
-                        sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
-                        sh "git add ."
-                        sh "git commit -m 'Update image version to ${VERSION}'"
-                        sh "git push -u origin main"
+                            sh "git config --global user.email 'rlozi1999@gmail.com'"
+                            sh "git config --global user.name 'LEJ'"
+                            sh "git branch"
+                            sh "git fetch --all"
+                            sh "git checkout -B main origin/main" // 새로운 브랜치 생성 및 체크아웃
+                            sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${VERSION}"
+                            sh "git add ."
+                            sh "git commit -m 'Update image version to ${VERSION}'"
+                            sh "git push origin main" // 새로운 브랜치를 원격 레포지토리로 푸시
+                        }
                     }
                 }
             }
