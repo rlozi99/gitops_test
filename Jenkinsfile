@@ -45,7 +45,7 @@ pipeline {
                         sh "git config --global user.name 'LEJ'"
                         sh "git add ."
                         sh "git commit -m 'Update image version to ${VERSION}'"
-                        sh "git push origin main"
+                        sh "git push -u origin main"
                     }
                 }
             }
